@@ -16,9 +16,9 @@ dotenv.config()
 //DB Connection
 mongoose.connect(
   process.env.MONGO_URI,
-  {useNewUrlParser: true, useUnifiedTopology: true}
+  { useNewUrlParser: true, useUnifiedTopology: true }
 )
-.then(() => console.log('DB Connected'))
+  .then(() => console.log('DB Connected'))
 mongoose.connection.on('error', err => {
   console.log(`DB connection error: ${err.message}`)
 });
@@ -26,6 +26,7 @@ mongoose.connection.on('error', err => {
 //Routes:
 const postRoutes = require('./routes/post')
 const authRoutes = require('./routes/auth')
+const categoryRoutes = require('./routes/category')
 
 
 //middleware:
@@ -36,8 +37,9 @@ app.use(expressValidator())
 app.use(cors());
 app.use('/api', postRoutes);
 app.use('/api', authRoutes);
+app.use('/api', categoryRoutes);
 
 
 
 const port = process.env.PORT || 8000
-app.listen(port, () =>{console.log(`Node listening on port: ${port}`)})
+app.listen(port, () => { console.log(`Node listening on port: ${port}`) })

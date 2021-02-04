@@ -21,7 +21,7 @@ exports.sendEmail = ((req, res) => {
     service: 'gmail',
     auth: {
       user: "susanfochesatto@gmail.com",
-      pass: process.env.EMAIL
+      pass: "su2004queromuito"
     },
     tls: {
       rejectUnauthorized:false

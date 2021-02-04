@@ -6,15 +6,15 @@ const _ = require('lodash')
 
 exports.postById = (req, res, next, id) => {
   Post.findById(id)
-  .exec((err, post) => {
-    if(err || !post) {
-      return res.status(400).json({
-        error: err
-      })
-    }
-    req.post = post
-    next()
-  })
+    .exec((err, post) => {
+      if (err || !post) {
+        return res.status(400).json({
+          error: err
+        })
+      }
+      req.post = post
+      next()
+    })
 }
 
 exports.isPoster = (req, res, next) => {
@@ -22,7 +22,7 @@ exports.isPoster = (req, res, next) => {
 
   console.log('req.post ', req.post, ' req.auth ', req.auth)
 
-  if(!isPoster) {
+  if (!isPoster) {
     return res.status(403).json({
       error: 'User is not authorized'
     });
@@ -30,53 +30,74 @@ exports.isPoster = (req, res, next) => {
   next();
 };
 
+// exports.read = (req, res) => {
+//   req.post.photo = undefined
+//   return res.json(req.post)
+// }
+
 
 exports.getPosts = async (req, res) => {
-    const currentPage = req.query.page || 1;
-    const perPage = 9;
-    let totalItems;
+  const currentPage = req.query.page || 1;
+  const perPage = 9;
+  let totalItems;
 
-    const posts = await Post.find()
-        .countDocuments()
-        .then(count => {
-            totalItems = count;
-            return Post.find()
-                .skip((currentPage - 1) * perPage)
-                .populate("comments", "text created")
-                .sort({ date: -1 })
-                .limit(perPage)
-                .select("_id title body");
-        })
-        .then(posts => {
-            res.status(200).json(posts);
-        })
-        .catch(err => console.log(err));
+  const posts = await Post.find()
+    .countDocuments()
+    .then(count => {
+      totalItems = count;
+      return Post.find()
+        .skip((currentPage - 1) * perPage)
+        .populate("comments", "text created")
+        .sort({ date: -1 })
+        .limit(perPage)
+        .select("_id title body");
+    })
+    .then(posts => {
+      res.status(200).json(posts);
+    })
+    .catch(err => console.log(err));
 };
 
 
 exports.createPost = (req, res, next) => {
-  let form =  new formidable.IncomingForm()
+  let form = new formidable.IncomingForm()
   form.keepExtentions = true
   form.parse(req, (err, fields, files) => {
-    if(err){
+    if (err) {
       return res.status(400).json({
         error: 'Image could not be uploaded'
       })
     }
     let post = new Post(fields)
 
-    if(files.photo){
+    if (files.photo) {
+      console.log('FILES PHOTO SIZE: ', files.photo.size)
+      if (files.photo.size > 1000000) {
+        return res.status(400).json({
+          error: 'Image should be less than 1mb'
+        });
+      }
       post.photo.data = fs.readFileSync(files.photo.path)
     }
-    if(files.photoInt){
+    if (files.photoInt) {
+      if (files.photo.size > 1000000) {
+        return res.status(400).json({
+          error: 'Image should be less than 1mb'
+        });
+      }
       post.photoInt.data = fs.readFileSync(files.photoInt.path)
     }
-    if(files.photoIntOne){
+    if (files.photoIntOne) {
+      if (files.photo.size > 1000000) {
+        return res.status(400).json({
+          error: 'Image should be less than 1mb'
+        });
+      }
       post.photoIntOne.data = fs.readFileSync(files.photoIntOne.path)
     }
 
     post.save((err, result) => {
-      if(err){
+      if (err) {
         return res.status(400).json({
           error: err
         })
@@ -94,7 +115,7 @@ exports.updatePost = (req, res, next) => {
   let form = new formidable.IncomingForm()
   form.keepExtentions = true
   form.parse(req, (err, fields, files) => {
-    if(err){
+    if (err) {
       return res.status(400).json({
         error: ' Photo could not be uploaded'
       })
@@ -103,23 +124,23 @@ exports.updatePost = (req, res, next) => {
     post = _.extend(post, fields)
     post.updated = Date.now()
 
-    if(files.photo){
+    if (files.photo) {
       post.photo.data = fs.readFileSync(files.photo.path)
       post.photo.contentType = files.photo.type
     }
 
-    if(files.photoInt){
+    if (files.photoInt) {
       post.photoInt.data = fs.readFileSync(files.photoInt.path)
       post.photoInt.contentType = files.photoInt.type
     }
 
-    if(files.photoIntOne){
+    if (files.photoIntOne) {
       post.photoIntOne.data = fs.readFileSync(files.photoIntOne.path)
       post.photoIntOne.contentType = files.photoIntOne.type
     }
 
-    post.save((err, result) => {
-      if(err){
+    post.save((err, post) => {
+      if (err) {
         return res.status(400).json({
           error: err
         })
@@ -132,7 +153,7 @@ exports.updatePost = (req, res, next) => {
 exports.deletePost = (req, res) => {
   let post = req.post
   post.remove((err, post) => {
-    if(err) {
+    if (err) {
       return res.status(400).json({
         error: err
       })
@@ -144,8 +165,8 @@ exports.deletePost = (req, res) => {
 }
 
 exports.photo = (req, res, next) => {
-    res.set('Content-Type', req.post.photo.contentType);
-    return res.send(req.post.photo.data);
+  res.set('Content-Type', req.post.photo.contentType);
+  return res.send(req.post.photo.data);
 };
 
 exports.photoInt = (req, res) => {
