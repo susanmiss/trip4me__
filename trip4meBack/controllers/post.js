@@ -2,6 +2,7 @@ const Post = require('../models/post')
 const formidable = require('formidable')
 const fs = require('fs')
 const _ = require('lodash')
+const { request } = require('http')
 
 
 exports.postById = (req, res, next, id) => {
@@ -16,6 +17,8 @@ exports.postById = (req, res, next, id) => {
       next()
     })
 }
+
+
 
 exports.isPoster = (req, res, next) => {
   let isPoster = req.post && req.auth && req.auth.role === "admin";
@@ -182,3 +185,22 @@ exports.photoIntOne = (req, res) => {
 exports.singlePost = (req, res) => {
   return res.json(req.post);
 }
+
+// exports.getPostsRelated = (req, res) => {
+//   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+//   //$ne is not encluded
+//   Post.find({ _id: { $ne: req.post }, category: req.post.category })
+//     .limit(limit)
+//     .populate('category', '_id')
+//     .exec((err, posts) => {
+//       if (err, res) {
+//         return res.status(400).json({
+//           error: 'Related posts not found'
+//         })
+//       }
+//       res.json(posts)
+//     });
+// };
+
+
