@@ -3,6 +3,8 @@ const formidable = require('formidable')
 const fs = require('fs')
 const _ = require('lodash')
 const { request } = require('http')
+// const query = require('query-string');
+
 
 
 exports.postById = (req, res, next, id) => {
@@ -186,21 +188,22 @@ exports.singlePost = (req, res) => {
   return res.json(req.post);
 }
 
-// exports.getPostsRelated = (req, res) => {
-//   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
-
-//   //$ne is not encluded
-//   Post.find({ _id: { $ne: req.post }, category: req.post.category })
-//     .limit(limit)
-//     .populate('category', '_id')
-//     .exec((err, posts) => {
-//       if (err, res) {
-//         return res.status(400).json({
-//           error: 'Related posts not found'
-//         })
-//       }
-//       res.json(posts)
-//     });
-// };
+exports.listSearch = (req, res) => {
+  //create query object to hold search value and category value:
+  const query = {}
+  //assing search value to query.name
+  if (req.query.search) {
+    query.name = { $regex: req.query.search, $options: 'i' }
+  }
+  //find the post based on query object search:
+  Post.find(query, (err, posts) => {
+    if (err) {
+      return res.status(400).json({
+        error: 'Error on your search'
+      })
+    }
+    res.json(posts)
+  })
+};
 
 

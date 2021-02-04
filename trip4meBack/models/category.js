@@ -7,7 +7,12 @@ const categorySchema = new mongoose.Schema({
         type: String,
         trim: true,
         required: true,
-    }
+    },
+    photo: {
+        data: Buffer,
+        contentType: String,
+    },
+    updated: Date,
 
 }, { timestamps: true }
 );
