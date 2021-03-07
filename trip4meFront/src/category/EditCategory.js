@@ -1,63 +1,45 @@
 import React, { Component } from "react";
-import { singlePost, update } from "./apiPost";
+import { singleCategory, update } from "./apiCategories"
 import { isAuthenticated } from "../auth";
 import { Redirect } from "react-router-dom";
-import { list } from '../category/apiCategories';
 
 
-class EditPost extends Component {
+
+class EditCategory extends Component {
     constructor() {
         super();
         this.state = {
             id: "",
-            title: "",
-            body: "",
+            name: "",
             redirectToHome: false,
             error: "",
             fileSize: 0,
-            loading: false,
-            category: '',
-            categories: []
+            loading: false
         };
     }
 
-
-
-    init = postId => {
-        singlePost(postId).then(data => {
+    init = categoryId => {
+        singleCategory(categoryId).then(data => {
             if (data.error) {
                 this.setState({ redirectToHome: true });
             } else {
                 this.setState({
                     id: data._id,
-                    title: data.title,
-                    body: data.body,
-                    category: data.category,
+                    name: data.name,
                     error: ""
                 });
             }
         });
     };
 
-    loadCategories = async () => {
-        await list().then(data => {
-            if (data.error) {
-                console.log(data.error);
-            } else {
-                this.setState({ categories: data });
-            }
-        });
-    };
-
     componentDidMount() {
         this.postData = new FormData();
-        const postId = this.props.match.params.postId;
-        this.init(postId);
-        this.loadCategories();
+        const categoryId = this.props.match.params.categoryId;
+        this.init(categoryId);
     }
 
     isValid = () => {
-        const { title, body, fileSize } = this.state;
+        const { name, fileSize } = this.state;
         if (fileSize > 1000000000000) {
             this.setState({
                 error: "File size should be less than 100kb",
@@ -65,16 +47,12 @@ class EditPost extends Component {
             });
             return false;
         }
-        if (title.length === 0 || body.length === 0) {
+        if (name.length === 0) {
             this.setState({ error: "All fields are required", loading: false });
             return false;
         }
-        if (title.length < 4 || title.length > 40) {
-            this.setState({ error: "Title must be between 4 and 40 characters", loading: false });
-            return false;
-        }
-        if (body.length < 4 || body.length > 3000) {
-            this.setState({ error: "Body must be between 4 and 3000 characters", loading: false });
+        if (name.length < 4 || name.length > 40) {
+            this.setState({ error: "Category Name must be between 4 and 40 characters", loading: false });
             return false;
         }
         return true;
@@ -97,17 +75,15 @@ class EditPost extends Component {
         this.setState({ loading: true });
 
         if (this.isValid()) {
-            const postId = this.props.match.params.postId;
+            const categoryId = this.props.match.params.categoryId;
             const token = isAuthenticated().token;
 
-            update(postId, token, this.postData).then(data => {
+            update(categoryId, token, this.postData).then(data => {
                 if (data.error) this.setState({ error: data.error });
                 else {
                     this.setState({
                         loading: false,
-                        title: "",
-                        body: "",
-                        category: "",
+                        name: "",
                         redirectToHome: true
                     });
                 }
@@ -115,10 +91,10 @@ class EditPost extends Component {
         }
     };
 
-    editPostForm = (title, body, categories, category) => (
+    editCategoryForm = (name) => (
         <form>
             <div className="form-group">
-                <label className="text-muted">Post Photo</label>
+                <label className="text-muted">Category Photo</label>
                 <input
                     onChange={this.handleChange("photo")}
                     type="file"
@@ -127,59 +103,20 @@ class EditPost extends Component {
                 />
             </div>
             <div className="form-group">
-                <label className="text-muted">Title</label>
+                <label className="text-muted">Category Name</label>
                 <input
-                    onChange={this.handleChange("title")}
+                    onChange={this.handleChange("name")}
                     type="text"
                     className="form-control"
-                    value={title}
+                    value={name}
                 />
             </div>
-
-            <div className="form-group">
-                <label className="text-muted">Body</label>
-                <textarea
-                    onChange={this.handleChange("body")}
-                    type="text"
-                    className="form-control"
-                    value={body}
-                />
-            </div>
-
-            <div>
-                <p>Current Category Id: {category}</p>
-            </div>
-
-            <div>
-
-                {categories.map((category, i) => {
-                    return (
-                        <div key={i}>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    onChange={this.handleChange("category")}
-                                    value={category._id}
-                                />{' '}
-                                {category.name}{' '}(Id: {category._id})
-
-                            </label>
-                            <br />
-                        </div>
-
-                    )
-                }
-
-                )}
-            </div>
-
-
 
             <button
                 onClick={this.clickSubmit}
                 className="btn btn-raised btn-primary"
             >
-                Update Post
+                Update Category
             </button>
         </form>
     );
@@ -187,13 +124,10 @@ class EditPost extends Component {
     render() {
         const {
             id,
-            title,
-            body,
+            name,
             redirectToHome,
             error,
-            loading,
-            categories,
-            category
+            loading
         } = this.state;
 
         if (redirectToHome) {
@@ -202,7 +136,7 @@ class EditPost extends Component {
 
         return (
             <div className="container" style={{ marginTop: "100px", marginBottom: "150px" }}>
-                <h2 className="mt-5 mb-5">{title}</h2>
+                <h2 className="mt-5 mb-5">{name}</h2>
 
                 <div
                     className="alert alert-danger"
@@ -223,18 +157,18 @@ class EditPost extends Component {
                     style={{ width: "auto", maxHeight: "350px" }}
                     className="img-thumbnail"
                     src={`${process.env.REACT_APP_API_URL
-                        }/post/photo/${id}?${new Date().getTime()}`}
+                        }/category/photo/${id}?${new Date().getTime()}`}
 
-                    alt={title}
+                    alt={name}
                 />
 
 
                 {isAuthenticated().user.role === "admin" &&
-                    this.editPostForm(title, body, categories, category)}
+                    this.editCategoryForm(name)}
 
             </div>
         );
     }
 }
 
-export default EditPost;
+export default EditCategory;

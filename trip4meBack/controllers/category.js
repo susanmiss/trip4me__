@@ -1,4 +1,5 @@
 const Category = require("../models/category");
+const Post = require('../models/post');
 const formidable = require('formidable')
 const fs = require('fs')
 const _ = require('lodash')
@@ -9,7 +10,7 @@ exports.categoryById = (req, res, next, id) => {
         .exec((err, category) => {
             if (err || !category) {
                 return res.status(400).json({
-                    error: err
+                    error: 'Category does not exist'
                 })
             }
             req.category = category;
@@ -53,6 +54,8 @@ exports.create = (req, res, next) => {
                 });
             }
             category.photo.data = fs.readFileSync(files.photo.path)
+            category.photo.contentType = files.photo.type
+
         }
 
         category.save((err, result) => {
@@ -67,8 +70,6 @@ exports.create = (req, res, next) => {
         })
     })
 }
-
-
 
 
 exports.update = (req, res, next) => {
@@ -120,8 +121,8 @@ exports.remove = (req, res) => {
     })
 }
 
-exports.list = (req, res) => {
-    Category.find().exec((err, data) => {
+exports.list = async (req, res) => {
+    await Category.find().exec((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: err
@@ -130,3 +131,4 @@ exports.list = (req, res) => {
         res.json(data);
     })
 }
+

@@ -7,20 +7,20 @@ export const create = (token, post) => {
     },
     body: post
   })
-  .then(response => {
-    return response.json();
-  })
-  .catch(err => console.log(err))
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err))
 }
 
-export const list = page => {
-    return fetch(`${process.env.REACT_APP_API_URL}/posts/?page=${page}`, {
-        method: "GET"
+export const list = () => {
+  return fetch(`${process.env.REACT_APP_API_URL}/posts`, {
+    method: "GET"
+  })
+    .then(response => {
+      return response.json();
     })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
+    .catch(err => console.log(err));
 };
 
 export const singlePost = (postId) => {
@@ -30,10 +30,10 @@ export const singlePost = (postId) => {
       Accept: " application/json"
     }
   })
-  .then(response => {
-    return response.json();
-  })
-  .catch(err => console.log(err))
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err))
 }
 
 
@@ -47,23 +47,23 @@ export const remove = (postId, token) => {
       Authorization: `Bearer ${token}`
     }
   })
-  .then(response => {
-    return response.json();
-  })
-  .catch(err => console.log(err))
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err))
 }
 
 export const update = (postId, token, post) => {
-    return fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
-        method: "PUT",
-        headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`
-        },
-        body: post
+  return fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: post
+  })
+    .then(response => {
+      return response.json();
     })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
+    .catch(err => console.log(err));
 };

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Posts /> Renders correctly 1`] = `ShallowWrapper {}`;
+
+exports[`<Posts /> renders correctly 1`] = `
+<section
+  className="page-section"
+  id="portfolio"
+>
+  <div
+    className="container"
+  >
+    <div
+      className="row"
+    >
+      <h2
+        className="mt-2"
+      >
+        No posts yet!
+      </h2>
+      <div
+        className="container"
+      >
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+`;

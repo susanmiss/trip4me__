@@ -12,6 +12,7 @@ router.get('/category/:categoryId', singleCategory);
 router.get('/categories', list);
 router.get('/category/photo/:categoryId', photo);
 
+
 router.param('categoryId', categoryById);
 
 

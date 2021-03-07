@@ -1,6 +1,7 @@
 import React from "react";
 import Posts from '../post/Posts'
-import Contact from './Contact'
+import Search from '../core/Search';
+import Categories from '../category/Categories';
 
 
 const Home = () => (
@@ -18,18 +19,24 @@ const Home = () => (
       <div className="container">
         <div className="row">
           <div className="col-lg-12 text-center">
-            <h2 className="section-heading text-uppercase">Welcome to Trip4me</h2>
+            <h2 className="section-heading">Welcome to Trip4me</h2>
             <h3 className="section-subheading text-welcome">'It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to...' Bilbo Baggings</h3>
+
           </div>
         </div>
       </div>
     </div>
 
-      <div>
-        <Posts />
-      </div>  
+
+    <div>
+      <Search />
+      <Categories />
+    </div>
 
   </div>
+
+
+
 );
 
 

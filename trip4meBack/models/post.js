@@ -13,7 +13,54 @@ const postSchema = new mongoose.Schema({
     minlength: 4,
     maxlength: 2000
   },
+  paragraph1: {
+    type: String,
+    minlength: 4,
+    maxlength: 2000
+  },
+  paragraph2: {
+    type: String
+  },
+  paragraph3: {
+    type: String
+  },
+  address: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  region: {
+    type: String
+  },
+  video: {
+    type: String
+  },
   photo: {
+    data: Buffer,
+    contentType: String,
+  },
+  photo1: {
+    data: Buffer,
+    contentType: String,
+  },
+  photo2: {
+    data: Buffer,
+    contentType: String,
+  },
+  photo3: {
+    data: Buffer,
+    contentType: String,
+  },
+  photo4: {
+    data: Buffer,
+    contentType: String,
+  },
+  photo5: {
+    data: Buffer,
+    contentType: String,
+  },
+  photo6: {
     data: Buffer,
     contentType: String,
   },
@@ -21,15 +68,11 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: new Date()
   },
+  top: {
+    type: Boolean,
+    default: false
+  },
   updated: Date,
-  photoInt: {
-    data: Buffer,
-    contentType: String,
-  },
-  photoIntOne: {
-    data: Buffer,
-    contentType: String
-  },
   category: {
     type: ObjectId,
     ref: 'Category',

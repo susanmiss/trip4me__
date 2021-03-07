@@ -9,7 +9,8 @@ const cookieParser = require('cookie-parser')
 const nodemailer = require('nodemailer');
 const fs = require('fs')
 const cors = require('cors')
-const sendEmail = require('./controllers/sendEmail')
+const sendEmail = require('./controllers/sendEmail');
+
 
 dotenv.config()
 
@@ -38,6 +39,7 @@ app.use(cors());
 app.use('/api', postRoutes);
 app.use('/api', authRoutes);
 app.use('/api', categoryRoutes);
+
 
 
 

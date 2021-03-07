@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home /> Renders correctly 1`] = `ShallowWrapper {}`;
+
+exports[`<Home /> renders correctly 1`] = `
+<div>
+  <header
+    className="masthead"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="intro-text"
+      >
+        <div
+          className="intro-lead-in"
+        />
+        <div
+          className="intro-heading text-uppercase"
+        />
+      </div>
+    </div>
+  </header>
+  <div
+    className="page-section bg-welcome"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-lg-12 text-center"
+        >
+          <h2
+            className="section-heading text-uppercase"
+          >
+            Welcome to Trip4me
+          </h2>
+          <h3
+            className="section-subheading text-welcome"
+          >
+            'It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to...' Bilbo Baggings
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <section
+      className="page-section"
+      id="portfolio"
+    >
+      <div
+        className="container"
+      >
+        <div
+          className="row"
+        >
+          <h2
+            className="mt-2"
+          >
+            No posts yet!
+          </h2>
+          <div
+            className="container"
+          >
+            
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+`;

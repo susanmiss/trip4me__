@@ -2,31 +2,56 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { isAuthenticated } from "../auth";
 import { create } from "./apiPost";
+import { list } from '../category/apiCategories';
 
 
 class NewPost extends Component {
-    constructor() {
+    constructor(props) {
         super();
         this.state = {
             title: "",
-            body: "",
+            paragraph1: '',
+            paragraph2: '',
+            paragraph3: '',
+            address: '',
+            city: '',
+            region: '',
+            video: '',
             photo: "",
-            photoInt: "",
-            photoIntOne:"",
+            photo1: '',
+            photo2: '',
+            photo3: '',
+            photo4: '',
+            photo5: '',
+            photo6: '',
+            categories: [],
             error: "",
             fileSize: 0,
             loading: false,
-            redirectToHome: false
+            category: [],
+            redirectToHome: false,
+            address: '',
         };
     }
+
+    loadPosts = async () => {
+        await list().then(data => {
+            if (data.error) {
+                console.log(data.error);
+            } else {
+                this.setState({ categories: data });
+            }
+        });
+    };
 
     componentDidMount() {
         this.postData = new FormData();
         this.setState({ user: isAuthenticated().user });
+        this.loadPosts();
     }
 
     isValid = () => {
-        const { title, body, fileSize } = this.state;
+        const { title, body, fileSize, category, paragraph1, address } = this.state;
         if (fileSize > 100000000000) {
             this.setState({
                 error: "File size should be less than 100kb",
@@ -34,22 +59,21 @@ class NewPost extends Component {
             });
             return false;
         }
-        if (title.length === 0 || body.length === 0 ) {
+        if (title.length === 0) {
             this.setState({ error: "All fields are required", loading: false });
             return false;
         }
-        if (title.length < 4 || title.length > 40 ) {
+        if (title.length < 4 || title.length > 40) {
             this.setState({ error: "Title must be between 4 and 40 characters", loading: false });
             return false;
         }
-        if (body.length < 4 || body.length > 3000) {
-            this.setState({ error: "Body must be between 4 and 3000 characters", loading: false });
-            return false;
-        }
+
         return true;
     };
 
     handleChange = name => event => {
+        console.log()
+
         this.setState({ error: "" });
         const value = name === "photo" ? event.target.files[0] : event.target.value;
 
@@ -60,11 +84,12 @@ class NewPost extends Component {
 
     };
 
-    handleChangeInt = name => event => {
-        this.setState({ error: "" });
-        const value = name === "photoInt" ? event.target.files[0] : event.target.value;
 
-        const fileSize = name === "photoInt" ? event.target.files[0].size : 0;
+    handleChangePhoto1 = name => event => {
+        this.setState({ error: "" });
+        const value = name === "photo1" ? event.target.files[0] : event.target.value;
+
+        const fileSize = name === "photo1" ? event.target.files[0].size : 0;
 
         this.postData.set(name, value);
         this.setState({ [name]: value, fileSize });
@@ -73,18 +98,70 @@ class NewPost extends Component {
 
     };
 
-    handleChangeInt1 = name => event => {
-      this.setState({ error: "" });
-      const value = name === "photoIntOne" ? event.target.files[0] : event.target.value;
+    handleChangePhoto2 = name => event => {
+        this.setState({ error: "" });
+        const value = name === "photo2" ? event.target.files[0] : event.target.value;
 
-      const fileSize = name === "photoIntOne" ? event.target.files[0].size : 0;
+        const fileSize = name === "photo2" ? event.target.files[0].size : 0;
 
-      this.postData.set(name, value);
-      this.setState({ [name]: value, fileSize });
+        this.postData.set(name, value);
+        this.setState({ [name]: value, fileSize });
 
-      console.log(value)
+        console.log(value)
+
     };
 
+    handleChangePhoto3 = name => event => {
+        this.setState({ error: "" });
+        const value = name === "photo3" ? event.target.files[0] : event.target.value;
+
+        const fileSize = name === "photo3" ? event.target.files[0].size : 0;
+
+        this.postData.set(name, value);
+        this.setState({ [name]: value, fileSize });
+
+        console.log(value)
+
+    };
+
+    handleChangePhoto4 = name => event => {
+        this.setState({ error: "" });
+        const value = name === "photo4" ? event.target.files[0] : event.target.value;
+
+        const fileSize = name === "photo4" ? event.target.files[0].size : 0;
+
+        this.postData.set(name, value);
+        this.setState({ [name]: value, fileSize });
+
+        console.log(value)
+
+    };
+
+    handleChangePhoto5 = name => event => {
+        this.setState({ error: "" });
+        const value = name === "photo5" ? event.target.files[0] : event.target.value;
+
+        const fileSize = name === "photo5" ? event.target.files[0].size : 0;
+
+        this.postData.set(name, value);
+        this.setState({ [name]: value, fileSize });
+
+        console.log(value)
+
+    };
+
+    handleChangePhoto6 = name => event => {
+        this.setState({ error: "" });
+        const value = name === "photo6" ? event.target.files[0] : event.target.value;
+
+        const fileSize = name === "photo6" ? event.target.files[0].size : 0;
+
+        this.postData.set(name, value);
+        this.setState({ [name]: value, fileSize });
+
+        console.log(value)
+
+    };
 
     clickSubmit = event => {
         event.preventDefault();
@@ -97,23 +174,60 @@ class NewPost extends Component {
             create(token, this.postData).then(data => {
                 if (data.error) this.setState({ error: data.error });
                 else {
-                  this.setState({
-                    loading: false,
-                    title:'',
-                    body:'',
-                    photo:'',
-                    photoInt: "",
-                    photoIntOne: "",
-                    redirectToHome: true
-                   });
+                    this.setState({
+                        loading: false,
+                        title: '',
+                        body: '',
+                        paragraph1: '',
+                        paragraph2: '',
+                        paragraph3: '',
+                        address: '',
+                        city: '',
+                        region: '',
+                        video: '',
+                        photo: '',
+                        photo1: '',
+                        photo2: '',
+                        photo3: '',
+                        photo4: '',
+                        photo5: '',
+                        photo6: '',
+                        categories: [],
+                        category: [],
+                        redirectToHome: true,
+                        address: ''
+                    });
                 }
 
             });
         }
     };
 
-    newPostForm = (title, body, photo, photoInt, photoIntOne) => (
+    newPostForm = (categories) => (
+
         <form>
+
+            <div>
+                <label className="text-muted">Categories:</label>
+                {categories.map((category, i) => {
+                    return (
+                        <div key={i}>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    onChange={this.handleChange("category")}
+                                    value={category._id}
+                                />{' '}
+                                {category.name}
+                            </label>
+                            <br />
+                        </div>
+                    )
+                }
+                )}
+            </div>
+
+
             <div className="form-group">
                 <label className="text-muted">Post Photo</label>
                 <input
@@ -129,43 +243,127 @@ class NewPost extends Component {
                     onChange={this.handleChange("title")}
                     type="text"
                     className="form-control"
-                    value={title}
+                // value={title}
                 />
             </div>
 
             <div className="form-group">
-                <label className="text-muted">My Post body:</label>
+                <label className="text-muted">Paragraph 1:</label>
                 <textarea
-                    onChange={this.handleChange("body")}
+                    onChange={this.handleChange("paragraph1")}
                     type="text"
                     className="form-control"
-                    value={body}
                 />
             </div>
 
-
             <div className="form-group">
-
-                <label className="text-muted">Post Internal Photo</label>
-                <input
-                    onChange={this.handleChangeInt("photoInt")}
-                    type="file"
-                    accept="image/*"
+                <label className="text-muted">Paragraph 2:</label>
+                <textarea
+                    onChange={this.handleChange("paragraph2")}
+                    type="text"
                     className="form-control"
                 />
             </div>
 
             <div className="form-group">
-                <label className="text-muted">Post Internal Photo</label>
+                <label className="text-muted">Paragraph 3:</label>
+                <textarea
+                    onChange={this.handleChange("paragraph3")}
+                    type="text"
+                    className="form-control"
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Address:</label>
                 <input
-                    onChange={this.handleChangeInt1("photoIntOne")}
+                    onChange={this.handleChange("address")}
+                    type="text"
+                    className="form-control"
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">City:</label>
+                <input
+                    onChange={this.handleChange("city")}
+                    type="text"
+                    className="form-control"
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Region:</label>
+                <input
+                    onChange={this.handleChange("region")}
+                    type="text"
+                    className="form-control"
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Video:</label>
+                <input
+                    onChange={this.handleChange("video")}
+                    type="text"
+                    className="form-control"
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Photo 01:</label>
+                <input
+                    onChange={this.handleChangePhoto1("photo1")}
                     type="file"
                     accept="image/*"
                     className="form-control"
                 />
             </div>
-
-
+            <div className="form-group">
+                <label className="text-muted">Photo 02:</label>
+                <input
+                    onChange={this.handleChangePhoto2("photo2")}
+                    type="file"
+                    accept="image/*"
+                    className="form-control"
+                />
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Photo 03:</label>
+                <input
+                    onChange={this.handleChangePhoto3("photo3")}
+                    type="file"
+                    accept="image/*"
+                    className="form-control"
+                />
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Photo 04:</label>
+                <input
+                    onChange={this.handleChangePhoto4("photo4")}
+                    type="file"
+                    accept="image/*"
+                    className="form-control"
+                />
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Photo 05:</label>
+                <input
+                    onChange={this.handleChangePhoto5("photo5")}
+                    type="file"
+                    accept="image/*"
+                    className="form-control"
+                />
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Photo 06:</label>
+                <input
+                    onChange={this.handleChangePhoto6("photo6")}
+                    type="file"
+                    accept="image/*"
+                    className="form-control"
+                />
+            </div>
 
 
             <button
@@ -174,19 +372,32 @@ class NewPost extends Component {
             >
                 Create Post
             </button>
-        </form>
+        </form >
+
     );
 
     render() {
         const {
+            categories,
             title,
-            body,
             photo,
-            photoInt,
-            photoIntOne,
+            photo1,
+            photo2,
+            photo3,
+            photo4,
+            photo5,
+            photo6,
             error,
             loading,
-            redirectToHome
+            category,
+            redirectToHome,
+            paragraph1,
+            paragraph2,
+            paragraph3,
+            address,
+            city,
+            region,
+            video,
         } = this.state;
 
         if (redirectToHome) {
@@ -194,7 +405,7 @@ class NewPost extends Component {
         }
 
         return (
-            <div className="container" style={{margin: "120px"}} >
+            <div className="container" style={{ margin: "120px 0px" }}>
                 <h2 className="mt-5 mb-5">Create a new post</h2>
                 <div
                     className="alert alert-danger"
@@ -202,7 +413,7 @@ class NewPost extends Component {
                 >
                     {error}
                 </div>
-                {this.newPostForm(title, body, photo, photoInt, photoIntOne)}
+                {this.newPostForm(categories, title, photo, category, photo1, photo2, photo3, photo4, photo5, photo6, paragraph1, paragraph2, paragraph3, address, city, region, video)}
             </div>
         );
     }

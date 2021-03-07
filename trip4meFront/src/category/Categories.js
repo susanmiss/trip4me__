@@ -1,70 +1,71 @@
 import React, { Component } from "react";
-import { list } from "./apiPost";
+import { list } from "./apiCategories";
 import { Link } from "react-router-dom";
 
 
-class Posts extends Component {
+class Categories extends Component {
     constructor() {
-        super();
+        super()
         this.state = {
-            posts: [],
-            page: 1,
+            categories: [],
+
         };
     }
 
-    loadPosts = page => {
-        list(page).then(data => {
+    loadCategories = () => {
+        list().then(data => {
             if (data.error) {
                 console.log(data.error);
             } else {
-                this.setState({ posts: data.reverse() });
+                this.setState({ categories: data.reverse() });
             }
         });
     };
 
     componentDidMount() {
-        this.loadPosts(this.state.page);
+        this.loadCategories();
     }
 
-    renderPosts = posts => {
+
+    renderCategories = categories => {
         return (
             <>
                 <div className="itemList" id="portfolio">
-                    {posts.map((post, i) => {
+                    {categories.map((category, i) => {
                         return (
-                            <div className="Item portfolio-item img-fluid" style={{ display: 'block', marginRight: "auto", marginLeft: "auto", width: "800px", marginBottom: "100px", border: "solid 1px red" }} key={i}>
-                                < Link className="portfolio-link" to={`/post/${post._id}`
-                                }>
+
+                            <div className="Item portfolio-item" style={{ marginBottom: "100px" }} key={i}>
+                                <Link className="portfolio-link" to={`/postsbycategory/${category._id}`}>
                                     <div className="portfolio-hover">
                                         <div className="portfolio-hover-content">
                                             <i className="fas fa-plus fa-3x" />
                                         </div>
                                     </div>
-                                    <img className="img-fluid" src={`${process.env.REACT_APP_API_URL
-                                        }/post/photo/${post._id}`}
+                                    <img
+                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                        className="img-fluid" src={`${process.env.REACT_APP_API_URL
+                                            }/category/photo/${category._id}`}
                                     />
                                 </Link>
 
-                                <div className="portfolio-caption bg-light">
-                                    <h4>{post.title}</h4>
+                                <div className="portfolio-caption bg-light pt-5">
+                                    <h4>{category.name}</h4>
                                     < br />
-                                    {/* <p className="text-muted">{post.paragraph1.substring(0, 60)}</p> */}
+                                    {/* <p className="text-muted">{category.name}</p> */}
                                 </div>
 
                             </div>
-
-
                         );
                     })
                     }
 
-                </div >
+                </div>
             </>
         );
     };
 
     render() {
-        const { posts, page } = this.state;
+        const { categories, page } = this.state;
         return (
             <section>
 
@@ -73,7 +74,7 @@ class Posts extends Component {
                     {!posts.length ? "No posts yet!" : ""}
                 </h2> */}
                 < div >
-                    {this.renderPosts(posts)}
+                    {this.renderCategories(categories)}
                 </div >
 
             </section >
@@ -82,4 +83,4 @@ class Posts extends Component {
     }
 }
 
-export default Posts;
+export default Categories;
