@@ -49,25 +49,27 @@ const Search = () => {
         return (
             <div className="row">
                 {results.map((post, i) => (
-                    <div className="m-5" key={i}>
-                        <h2 className="pb-5">Your search results:</h2>
-                        <div className="Item portfolio-item" style={{ marginBottom: "100px" }} key={i}>
-                            <Link className="portfolio-link" to={`/post/${post._id}`}>
+                    <div className="Item portfolio-item img-fluid" style={{ display: 'block', marginRight: "auto", marginLeft: "auto", width: "800px", height: "100%" }} key={i}>
 
-                                <img className="img-fluid" src={`${process.env.REACT_APP_API_URL
+                        <Link
+                            className="portfolio-link" to={`/post/${post._id}`}
+                        >
+                            <img
+                                style={{ width: "800px" }}
+                                className="img-fluid" src={`${process.env.REACT_APP_API_URL
                                     }/post/photo/${post._id}`}
-                                />
-                            </Link>
+                            />
+                        </Link>
 
-                            <div className="portfolio-caption bg-light">
-                                <h4>{post.title}</h4>
-                                < br />
-                                <p className="text-muted">{post.body.substring(0, 60)}</p>
-                            </div>
-
+                        <div className="portfolio-caption bg-light" >
+                            <h4 className="text-center">{post.title}</h4>
+                            < br />
+                            <p className="text-muted text-center pb-3">
+                            </p>
                         </div>
 
                     </div>
+
                 ))
                 }
             </div >
@@ -99,8 +101,6 @@ const Search = () => {
             <div className="container-fluid mb-3">
                 {searchedProducts(results)}
             </div>
-
-
         </div>
     )
 }

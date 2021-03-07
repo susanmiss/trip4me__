@@ -11,7 +11,20 @@ class EditPost extends Component {
         this.state = {
             id: "",
             title: "",
-            body: "",
+            paragraph1: '',
+            paragraph2: '',
+            paragraph3: '',
+            address: '',
+            city: '',
+            region: '',
+            video: '',
+            photo: "",
+            photo1: '',
+            photo2: '',
+            photo3: '',
+            photo4: '',
+            photo5: '',
+            photo6: '',
             redirectToHome: false,
             error: "",
             fileSize: 0,
@@ -31,7 +44,13 @@ class EditPost extends Component {
                 this.setState({
                     id: data._id,
                     title: data.title,
-                    body: data.body,
+                    paragraph1: data.paragraph1,
+                    paragraph2: data.paragraph2,
+                    paragraph3: data.paragraph3,
+                    address: data.address,
+                    city: data.city,
+                    region: data.region,
+                    video: data.paragraph1,
                     category: data.category,
                     error: ""
                 });
@@ -65,16 +84,12 @@ class EditPost extends Component {
             });
             return false;
         }
-        if (title.length === 0 || body.length === 0) {
+        if (title.length === 0) {
             this.setState({ error: "All fields are required", loading: false });
             return false;
         }
         if (title.length < 4 || title.length > 40) {
             this.setState({ error: "Title must be between 4 and 40 characters", loading: false });
-            return false;
-        }
-        if (body.length < 4 || body.length > 3000) {
-            this.setState({ error: "Body must be between 4 and 3000 characters", loading: false });
             return false;
         }
         return true;
@@ -91,7 +106,6 @@ class EditPost extends Component {
     };
 
 
-
     clickSubmit = event => {
         event.preventDefault();
         this.setState({ loading: true });
@@ -106,7 +120,13 @@ class EditPost extends Component {
                     this.setState({
                         loading: false,
                         title: "",
-                        body: "",
+                        paragraph1: '',
+                        paragraph2: '',
+                        paragraph3: '',
+                        address: '',
+                        city: '',
+                        region: '',
+                        video: '',
                         category: "",
                         redirectToHome: true
                     });
@@ -115,7 +135,13 @@ class EditPost extends Component {
         }
     };
 
-    editPostForm = (title, body, categories, category) => (
+    editPostForm = (title, categories, category, paragraph1,
+        paragraph2,
+        paragraph3,
+        address,
+        city,
+        region,
+        video,) => (
         <form>
             <div className="form-group">
                 <label className="text-muted">Post Photo</label>
@@ -137,14 +163,76 @@ class EditPost extends Component {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">Body</label>
+                <label className="text-muted">Paragraph1</label>
                 <textarea
-                    onChange={this.handleChange("body")}
+                    onChange={this.handleChange("paragraph1")}
                     type="text"
                     className="form-control"
-                    value={body}
+                    value={paragraph1}
                 />
             </div>
+
+            <div className="form-group">
+                <label className="text-muted">Paragraph2</label>
+                <textarea
+                    onChange={this.handleChange("paragraph2")}
+                    type="text"
+                    className="form-control"
+                    value={paragraph2}
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Paragraph3</label>
+                <textarea
+                    onChange={this.handleChange("paragraph3")}
+                    type="text"
+                    className="form-control"
+                    value={paragraph3}
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Address</label>
+                <input
+                    onChange={this.handleChange("address")}
+                    type="text"
+                    className="form-control"
+                    value={address}
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">City</label>
+                <input
+                    onChange={this.handleChange("city")}
+                    type="text"
+                    className="form-control"
+                    value={city}
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Region</label>
+                <input
+                    onChange={this.handleChange("region")}
+                    type="text"
+                    className="form-control"
+                    value={region}
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Video</label>
+                <input
+                    onChange={this.handleChange("video")}
+                    type="text"
+                    className="form-control"
+                    value={video}
+                />
+            </div>
+
+
 
             <div>
                 <p>Current Category Id: {category}</p>
@@ -188,7 +276,13 @@ class EditPost extends Component {
         const {
             id,
             title,
-            body,
+            paragraph1,
+            paragraph2,
+            paragraph3,
+            address,
+            city,
+            region,
+            video,
             redirectToHome,
             error,
             loading,
@@ -230,7 +324,13 @@ class EditPost extends Component {
 
 
                 {isAuthenticated().user.role === "admin" &&
-                    this.editPostForm(title, body, categories, category)}
+                    this.editPostForm(title, categories, category, paragraph1,
+                        paragraph2,
+                        paragraph3,
+                        address,
+                        city,
+                        region,
+                        video)}
 
             </div>
         );

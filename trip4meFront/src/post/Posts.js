@@ -32,23 +32,23 @@ class Posts extends Component {
                 <div className="itemList" id="portfolio">
                     {posts.map((post, i) => {
                         return (
-                            <div className="Item portfolio-item img-fluid" style={{ display: 'block', marginRight: "auto", marginLeft: "auto", width: "800px", marginBottom: "100px", border: "solid 1px red" }} key={i}>
-                                < Link className="portfolio-link" to={`/post/${post._id}`
-                                }>
-                                    <div className="portfolio-hover">
-                                        <div className="portfolio-hover-content">
-                                            <i className="fas fa-plus fa-3x" />
-                                        </div>
-                                    </div>
-                                    <img className="img-fluid" src={`${process.env.REACT_APP_API_URL
-                                        }/post/photo/${post._id}`}
+                            <div className="Item portfolio-item img-fluid" style={{ display: 'block', marginRight: "auto", marginLeft: "auto", width: "800px", height: "100%" }} key={i}>
+
+                                <Link
+                                    className="portfolio-link" to={`/post/${post._id}`}
+                                >
+                                    <img
+                                        style={{ width: "800px" }}
+                                        className="img-fluid" src={`${process.env.REACT_APP_API_URL
+                                            }/post/photo/${post._id}`}
                                     />
                                 </Link>
 
-                                <div className="portfolio-caption bg-light">
-                                    <h4>{post.title}</h4>
+                                <div className="portfolio-caption bg-light" >
+                                    <h4 className="text-center">{post.title}</h4>
                                     < br />
-                                    {/* <p className="text-muted">{post.paragraph1.substring(0, 60)}</p> */}
+                                    <p className="text-muted text-center pb-3">
+                                    </p>
                                 </div>
 
                             </div>

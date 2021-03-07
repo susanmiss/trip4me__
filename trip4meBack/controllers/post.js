@@ -120,6 +120,30 @@ exports.updatePost = (req, res, next) => {
       post.photo.data = fs.readFileSync(files.photo.path)
       post.photo.contentType = files.photo.type
     }
+    if (files.photo1) {
+      post.photo1.data = fs.readFileSync(files.photo1.path)
+      post.photo1.contentType = files.photo1.type
+    }
+    if (files.photo2) {
+      post.photo2.data = fs.readFileSync(files.photo2.path)
+      post.photo2.contentType = files.photo2.type
+    }
+    if (files.photo3) {
+      post.photo3.data = fs.readFileSync(files.photo3.path)
+      post.photo3.contentType = files.photo3.type
+    }
+    if (files.photo4) {
+      post.photo4.data = fs.readFileSync(files.photo4.path)
+      post.photo4.contentType = files.photo4.type
+    }
+    if (files.photo5) {
+      post.photo5.data = fs.readFileSync(files.photo5.path)
+      post.photo5.contentType = files.photo5.type
+    }
+    if (files.photo6) {
+      post.photo6.data = fs.readFileSync(files.photo6.path)
+      post.photo6.contentType = files.photo6.type
+    }
 
     post.save((err, post) => {
       if (err) {

@@ -30,11 +30,10 @@ class Categories extends Component {
     renderCategories = categories => {
         return (
             <>
-                <div className="itemList" id="portfolio">
+                <div className="itemList" id="portfolio" >
                     {categories.map((category, i) => {
                         return (
-
-                            <div className="Item portfolio-item" style={{ marginBottom: "100px" }} key={i}>
+                            <div className="Item portfolio-item" key={i} style={{ marginBottom: 100, marginTop: -50 }}>
                                 <Link className="portfolio-link" to={`/postsbycategory/${category._id}`}>
                                     <div className="portfolio-hover">
                                         <div className="portfolio-hover-content">
