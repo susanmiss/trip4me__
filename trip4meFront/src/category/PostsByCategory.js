@@ -56,10 +56,12 @@ class PostByCategories extends Component {
                         <div className="itemList" id="portfolio">
                             {posts.map((post, i) => {
                                 return (
-                                    <div key={i} className="Item portfolio-item">
+
+                                    < div key={i} className="Item portfolio-item" >
+                                        {/* {JSON.stringify(category)} */}
                                         {post.category._id === category
                                             ?
-                                            <div className="Item portfolio-item" key={i} style={{ marginBottom: 100, marginTop: -50 }}>
+                                            < div className="Item portfolio-item" key={i} style={{ marginBottom: 100, marginTop: -50 }}>
 
                                                 <Link
                                                     className="portfolio-link" to={`/post/${post._id}`}
@@ -91,7 +93,7 @@ class PostByCategories extends Component {
                             })}
                         </div>
                     </div>
-                </section>
+                </section >
 
             </div >
 

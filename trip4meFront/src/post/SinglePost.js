@@ -108,14 +108,13 @@ class SinglePost extends Component {
                                 style={{
                                     height: '600px', width: "100%", objectFit: "cover", border: 0, frameborder: "0", textAlign: "center"
                                 }}
-                                src={`${post.video}`
+                                src={`https://www.youtube.com/embed/${post.video}`
                                 } frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 
                             </iframe>
                         </div>
                         :
                         ""}
-
 
 
                     <br /> <br />
@@ -136,7 +135,7 @@ class SinglePost extends Component {
                         <iframe
                             style={{ width: '100%', height: '600px', border: 0, frameborder: "0", textAlign: "center" }}
                             src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBl37aBwk41Wk2aFrE1TK90S3d53LA5Z2s
-                            &q=${post.address}`} >
+                            &q=${post.address ? post.address : post.city}`} >
                         </iframe>
                     </div>
 
